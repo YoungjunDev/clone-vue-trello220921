@@ -3,7 +3,7 @@
     <Header />
   </section>
   <!-- {{ items }} -->
-  <Board v-bind:propsdata="items" />
+  <Board v-bind:propsdata="data[0]" />
   <Footer />
   <button @click="fetchData">Data</button>
 </template>
@@ -13,30 +13,34 @@ import Header from "./components/TrelloHeader.vue";
 import Board from "./components/TrelloBoard.vue";
 import Footer from "./components/TrelloFooter.vue";
 import axios from "axios";
+import Dummydata from "../public/dummy/dummy.json";
 
 export default {
   name: "App",
   components: {
     Header,
     Board,
-    Footer
+    Footer,
   },
   data() {
     return {
       items: [],
+      data: Dummydata.board,
     };
   },
   mounted() {
     axios
       .get("./dummy/dummy.json")
       .then((response) => (this.items = response.data.board[0]))
-      .catch((error) => (console.log(error)))
-      .then(() =>(console.log("axios 실행")));
+      .catch((error) => console.log(error))
+      .then(() => console.log("axios 실행"));
+
+    sessionStorage.setItem("data", JSON.stringify(this.data));
   },
   methods: {
     fetchData() {
       console.log(this.items);
-    }
+    },
   },
   // created() {
   //   if (localStorage.length > 0) {

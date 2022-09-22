@@ -1,15 +1,37 @@
 <!--HTML-->
 <template>
-  <div class="list" v-for="(board, idx) in board" v-bind:key="idx">
+  <div class="list" v-for="(board, idx) in board" v-bind:key="board">
     <div class="title-menu">
-      <h3 class="list-title" @click="updateTitle">{{ board.list_title }}</h3>
+      {{ board }}
+      <h3 class="list-title">{{ board.list_title }}</h3>
       <input class="list-title-input" v-model="newTitleItem" />
       <button class="action-menu">
         <i class="fa-solid fa-ellipsis"></i>
       </button>
     </div>
     <Card v-bind:card="board.list_item" />
-    <button class="add-card-btn btn">&#43;Add a card</button>
+    <div class="list-card-labels" v-show="isClickedLabel">
+      <textarea
+        name=""
+        id="list-card-composer-textarea"
+        cols="26"
+        rows="10"
+        placeholder=" Enter a title for this card..."
+      ></textarea>
+      <div class="list-update-col">
+        <button class="add-card-update-btn">Add card</button>
+        <span class="add-list-close">
+          <i class="fa-solid fa-x"></i>
+        </span>
+      </div>
+    </div>
+    <button
+      class="add-card-btn btn"
+      @click="addCard(board, idx)"
+      v-show="isClickedBtn"
+    >
+      &#43;Add a card
+    </button>
   </div>
 </template>
 
@@ -23,21 +45,22 @@ export default {
   data() {
     return {
       newTitleItem: "",
+      isClickedLabel: false,
+      isClickedBtn: true,
     };
   },
   methods: {
-    updateTitle() {},
-    addTitle() {
-      if (this.newTitleItem !== "") {
-        console.log(this.newTitleItem);
-      }
+    addCard: function (board, idx) {
+      console.log(event.target, board, idx);
+      this.isClickedLabel = !this.isClickedLabel;
+      this.isClickedBtn = !this.isClickedBtn;
     },
   },
   components: {
     Card,
   },
 };
-</script>
+</script> 
 
 <!-- css -->
 <style scoped>
@@ -92,6 +115,58 @@ export default {
   border: none;
   border-radius: 0.8rem;
   display: none;
+}
+.list-card-labels {
+  overflow: auto;
+  position: relative;
+  padding: 0px 5px;
+}
+
+.list-update-col {
+  display: flex;
+}
+
+#list-card-composer-textarea {
+  overflow: hidden;
+  overflow-wrap: break-word;
+  resize: none;
+  height: 54px;
+  font-family: Verdana, Geneva, sans-serif;
+  font-size: 16px;
+  border-radius: 0.4rem;
+  border: none;
+}
+
+.add-card-update-btn {
+  margin: 5px;
+  padding: 8px;
+  background-color: #4b89dc;
+  border: none;
+  border-radius: 0.3rem;
+  color: white;
+  cursor: pointer;
+}
+
+.add-card-update-btn:hover {
+  background-color: #0067a3;
+  color: white;
+  text-decoration: none;
+}
+
+.add-list-close {
+  height: 100%;
+  margin: 10px;
+  cursor: pointer;
+}
+
+.fa-x {
+  font-size: 20px;
+  color: #4d4d4d;
+}
+
+.fa-x:hover {
+  color: #000000;
+  text-decoration: none;
 }
 
 .add-card-btn {

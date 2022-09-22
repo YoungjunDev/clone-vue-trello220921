@@ -60,6 +60,7 @@
             "board_name": "더미2",
             "board_item": [
                 {
+                    "idx": 0,
                     "list_title": "ToDo2",
                     "list_item": [
                         {                      
@@ -74,6 +75,7 @@
                     ]
                 },
                 {
+                    "idx": 1,
                     "list_title": "더미2",
                     "list_item": [
                         {
@@ -91,6 +93,7 @@
                     ]
                 },
                 {
+                    "idx": 2,
                     "list_title": "Done2",
                     "list_item": [
                         {

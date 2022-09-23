@@ -30,7 +30,6 @@
         cols="26"
         rows="10"
         placeholder=" Enter a title for this card..."
-        v-model="newlistItem"
         v-on:keyup.enter="addTitle"
       ></textarea>
       <div class="list-update-col">
@@ -70,7 +69,6 @@ export default {
     changeTitle: function (board) {
       board.list_title.titleChangeh3 = !board.list_title.titleChangeh3;
       board.list_title.titleChangeInput = !board.list_title.titleChangeInput;
-      this.$refs.cursor.focus();
     },
 
     closeTitle: function (board) {

@@ -18,7 +18,6 @@
           cols="26"
           rows="10"
           placeholder=" Enter list title..."
-          v-model="newlistItem"
           v-on:keyup.enter="addTitle"
         ></textarea>
         <div class="list-update-col">

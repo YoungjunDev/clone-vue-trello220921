@@ -1,34 +1,49 @@
 <!--HTML-->
 <template>
-  <div class="list" v-for="(board, idx) in board" v-bind:key="board">
+  <div class="list" v-for="board in board" v-bind:key="board">
     <div class="title-menu">
-      {{ board }}
-      <h3 class="list-title">{{ board.list_title }}</h3>
-      <input class="list-title-input" v-model="newTitleItem" />
+      <!-- {{ board.list_title }} -->
+      <span>
+        <h3
+          class="list-title"
+          v-show="board.list_title.titleChangeh3"
+          @click="changeTitle(board)"
+        >
+          {{ board.list_title.listTitle }}
+        </h3>
+      </span>
+      <input
+        class="list-title-input"
+        v-show="board.list_title.titleChangeInput"
+        :value="board.list_title.listTitle"
+        @blur="closeTitle(board)"
+      />
       <button class="action-menu">
         <i class="fa-solid fa-ellipsis"></i>
       </button>
     </div>
     <Card v-bind:card="board.list_item" />
-    <div class="list-card-labels" v-show="isClickedLabel">
+    <div class="list-card-labels" v-show="board.list_title.addCardDiv">
       <textarea
         name=""
         id="list-card-composer-textarea"
         cols="26"
         rows="10"
         placeholder=" Enter a title for this card..."
+        v-model="newlistItem"
+        v-on:keyup.enter="addTitle"
       ></textarea>
       <div class="list-update-col">
         <button class="add-card-update-btn">Add card</button>
-        <span class="add-list-close">
+        <span class="add-list-close" @click="closeCard(board)">
           <i class="fa-solid fa-x"></i>
         </span>
       </div>
     </div>
     <button
       class="add-card-btn btn"
-      @click="addCard(board, idx)"
-      v-show="isClickedBtn"
+      @click="addCard(board)"
+      v-show="board.list_title.addCardBtn"
     >
       &#43;Add a card
     </button>
@@ -44,23 +59,41 @@ export default {
   props: ["board"],
   data() {
     return {
-      newTitleItem: "",
-      isClickedLabel: false,
-      isClickedBtn: true,
+      updateTitle: "",
     };
   },
   methods: {
-    addCard: function (board, idx) {
-      console.log(event.target, board, idx);
-      this.isClickedLabel = !this.isClickedLabel;
-      this.isClickedBtn = !this.isClickedBtn;
+    addTitle: function () {
+      console.log(this.newTitleItem);
+    },
+
+    changeTitle: function (board) {
+      board.list_title.titleChangeh3 = !board.list_title.titleChangeh3;
+      board.list_title.titleChangeInput = !board.list_title.titleChangeInput;
+      this.$refs.cursor.focus();
+    },
+
+    closeTitle: function (board) {
+      board.list_title.titleChangeh3 = !board.list_title.titleChangeh3;
+      board.list_title.titleChangeInput = !board.list_title.titleChangeInput;
+    },
+
+    addCard: function (board) {
+      console.log(board.list_title.addCardDiv);
+      board.list_title.addCardDiv = !board.list_title.addCardDiv;
+      board.list_title.addCardBtn = !board.list_title.addCardBtn;
+    },
+
+    closeCard(board) {
+      board.list_title.addCardDiv = !board.list_title.addCardDiv;
+      board.list_title.addCardBtn = !board.list_title.addCardBtn;
     },
   },
   components: {
     Card,
   },
 };
-</script> 
+</script>
 
 <!-- css -->
 <style scoped>
@@ -74,7 +107,6 @@ export default {
   margin-right: 1rem;
   box-shadow: 0px 0px 10px #000000;
 }
-
 /* .list:last-of-type {
     margin-right: 0;
   } */
@@ -109,12 +141,15 @@ export default {
   padding: 1rem;
   margin-top: 0.1rem;
   margin-bottom: 0.1rem;
+  margin-top: 1rem;
 }
 
 .list-title-input {
-  border: none;
-  border-radius: 0.8rem;
-  display: none;
+  border-radius: 0rem;
+  border-color: #4682b4;
+  margin: 0.2rem 1rem;
+  height: 2em;
+  margin-top: 1rem;
 }
 .list-card-labels {
   overflow: auto;

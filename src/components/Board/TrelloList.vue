@@ -1,48 +1,49 @@
 <!--HTML-->
 <template>
-  <div class="list" v-for="board in board" v-bind:key="board">
+  <div class="list" v-for="item in this.updateTitle" v-bind:key="item">
     <div class="title-menu">
-      <!-- {{ board.list_title }} -->
+      <!-- {{ board }} -->
       <span>
         <h3
           class="list-title"
-          v-show="board.list_title.titleChangeh3"
-          @click="changeTitle(board)"
+          v-show="item.list_title.titleChangeh3"
+          @click="openTitle(item)"
         >
-          {{ board.list_title.listTitle }}
+          {{ item.list_title.listTitle }}
         </h3>
       </span>
       <input
         class="list-title-input"
-        v-show="board.list_title.titleChangeInput"
-        :value="board.list_title.listTitle"
-        @blur="closeTitle(board)"
+        v-show="item.list_title.titleChangeInput"
+        v-model="item.list_title.listTitle"
+        @blur="closeTitle(item)"
       />
       <button class="action-menu">
         <i class="fa-solid fa-ellipsis"></i>
       </button>
     </div>
-    <Card v-bind:card="board.list_item" />
-    <div class="list-card-labels" v-show="board.list_title.addCardDiv">
+    <Card v-bind:card="item.list_item" :newItem="newPutItem" />
+    <div class="list-card-labels" v-show="item.list_title.addCardDiv">
       <textarea
         name=""
         id="list-card-composer-textarea"
         cols="26"
         rows="10"
         placeholder=" Enter a title for this card..."
+        v-model="newPutItem"
         v-on:keyup.enter="addTitle"
       ></textarea>
       <div class="list-update-col">
-        <button class="add-card-update-btn">Add card</button>
-        <span class="add-list-close" @click="closeCard(board)">
+        <button class="add-card-update-btn" @click="addTitle">Add card</button>
+        <span class="add-list-close" @click="closeCard(item)">
           <i class="fa-solid fa-x"></i>
         </span>
       </div>
     </div>
     <button
       class="add-card-btn btn"
-      @click="addCard(board)"
-      v-show="board.list_title.addCardBtn"
+      @click="addCard(item)"
+      v-show="item.list_title.addCardBtn"
     >
       &#43;Add a card
     </button>
@@ -58,33 +59,31 @@ export default {
   props: ["board"],
   data() {
     return {
-      updateTitle: "",
+      updateTitle: this.board,
+      newPutItem: "",
     };
   },
   methods: {
-    addTitle: function () {
-      console.log(this.newTitleItem);
+    openTitle: function (item) {
+      // console.log(item.list_title.listTitle);
+      item.list_title.titleChangeh3 = !item.list_title.titleChangeh3;
+      item.list_title.titleChangeInput = !item.list_title.titleChangeInput;
     },
 
-    changeTitle: function (board) {
-      board.list_title.titleChangeh3 = !board.list_title.titleChangeh3;
-      board.list_title.titleChangeInput = !board.list_title.titleChangeInput;
+    closeTitle: function (item) {
+      item.list_title.titleChangeh3 = !item.list_title.titleChangeh3;
+      item.list_title.titleChangeInput = !item.list_title.titleChangeInput;
     },
 
-    closeTitle: function (board) {
-      board.list_title.titleChangeh3 = !board.list_title.titleChangeh3;
-      board.list_title.titleChangeInput = !board.list_title.titleChangeInput;
+    addCard: function (item) {
+      console.log(item.list_title.addCardDiv);
+      item.list_title.addCardDiv = !item.list_title.addCardDiv;
+      item.list_title.addCardBtn = !item.list_title.addCardBtn;
     },
 
-    addCard: function (board) {
-      console.log(board.list_title.addCardDiv);
-      board.list_title.addCardDiv = !board.list_title.addCardDiv;
-      board.list_title.addCardBtn = !board.list_title.addCardBtn;
-    },
-
-    closeCard(board) {
-      board.list_title.addCardDiv = !board.list_title.addCardDiv;
-      board.list_title.addCardBtn = !board.list_title.addCardBtn;
+    closeCard(item) {
+      item.list_title.addCardDiv = !item.list_title.addCardDiv;
+      item.list_title.addCardBtn = !item.list_title.addCardBtn;
     },
   },
   components: {

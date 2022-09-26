@@ -1,14 +1,25 @@
 <!--HTML-->
 <template>
   <ul class="list-items" ref=" items">
-    <li v-for="(card, idx) in card" v-bind:key="idx">{{ card.card_title }}</li>
+    <li v-for="(card, idx) in this.updateTitle" v-bind:key="idx">
+      {{ card.card_title }}
+    </li>
+    <li v-for="newCard in this.newTitle" :key="newCard">
+      {{ newCard }}
+    </li>
   </ul>
 </template>
 
 <!--script-->
 <script>
 export default {
-  props: ["card"],
+  props: ["card", "newItem"],
+  data() {
+    return {
+      updateTitle: this.card,
+      newTitle: this.newItem,
+    };
+  },
 };
 </script>
 

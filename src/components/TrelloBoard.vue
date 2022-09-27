@@ -5,12 +5,12 @@
     <List v-bind:board="propsdata.board_item" />
     <button
       class="add-list-btn btn"
-      v-show="isHiddenBtn"
+      v-show="propsdata.listCreateBtn"
       v-on:click="openAddListContainer"
     >
       &#43;Add another list
     </button>
-    <div class="list-container" v-show="isHiddenContainer">
+    <div class="list-container" v-show="propsdata.listCreateList">
       <div class="list-card-labels">
         <textarea
           name=""
@@ -18,10 +18,13 @@
           cols="26"
           rows="10"
           placeholder=" Enter list title..."
+          v-model="newPutList"
           v-on:keyup.enter="addTitle"
         ></textarea>
         <div class="list-update-col">
-          <button class="add-card-update-btn">Add card</button>
+          <button class="add-card-update-btn" @click="addListItem">
+            Add card
+          </button>
           <span class="add-list-close">
             <i class="fa-solid fa-x" v-on:click="closeAddListContainer"></i>
           </span>
@@ -43,18 +46,47 @@ export default {
   },
   data() {
     return {
-      isHiddenBtn: true,
-      isHiddenContainer: false,
+      board: this.propsdata,
+      addList: this.propsdata.board_item,
+      addOption: this.propsdata.board_item.list_title,
+      newPutList: "",
     };
   },
   methods: {
+    addListItem() {
+      const newdata = {
+        list_item: [],
+        list_title: {
+          listTitle: "",
+          titleChangeh3: true,
+          titleChangeInput: false,
+          addCardBtn: true,
+          addCardDiv: false,
+        },
+      };
+      if (this.newPutList !== "") {
+        newdata.list_title.listTitle = this.newPutList;
+        this.addList.push(newdata);
+        console.log(this.addList);
+        this.clearInput();
+      } else {
+        console.log("실패");
+      }
+    },
+
+    clearInput() {
+      this.newPutList = "";
+      this.board.listCreateBtn = !this.board.listCreateBtn;
+      this.board.listCreateList = !this.board.listCreateList;
+    },
+
     openAddListContainer() {
-      this.isHiddenBtn = !this.isHiddenBtn;
-      this.isHiddenContainer = !this.isHiddenContainer;
+      this.board.listCreateBtn = !this.board.listCreateBtn;
+      this.board.listCreateList = !this.board.listCreateList;
     },
     closeAddListContainer() {
-      this.isHiddenBtn = !this.isHiddenBtn;
-      this.isHiddenContainer = !this.isHiddenContainer;
+      this.board.listCreateBtn = !this.board.listCreateBtn;
+      this.board.listCreateList = !this.board.listCreateList;
     },
   },
 };

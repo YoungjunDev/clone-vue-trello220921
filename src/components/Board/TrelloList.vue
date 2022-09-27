@@ -22,31 +22,7 @@
         <i class="fa-solid fa-ellipsis"></i>
       </button>
     </div>
-    <Card v-bind:card="item.list_item" :newItem="newPutItem" />
-    <div class="list-card-labels" v-show="item.list_title.addCardDiv">
-      <textarea
-        name=""
-        id="list-card-composer-textarea"
-        cols="26"
-        rows="10"
-        placeholder=" Enter a title for this card..."
-        v-model="newPutItem"
-        v-on:keyup.enter="addTitle"
-      ></textarea>
-      <div class="list-update-col">
-        <button class="add-card-update-btn" @click="addTitle">Add card</button>
-        <span class="add-list-close" @click="closeCard(item)">
-          <i class="fa-solid fa-x"></i>
-        </span>
-      </div>
-    </div>
-    <button
-      class="add-card-btn btn"
-      @click="addCard(item)"
-      v-show="item.list_title.addCardBtn"
-    >
-      &#43;Add a card
-    </button>
+    <Card v-bind:card="item" />
   </div>
 </template>
 
@@ -60,7 +36,6 @@ export default {
   data() {
     return {
       updateTitle: this.board,
-      newPutItem: "",
     };
   },
   methods: {
@@ -73,17 +48,6 @@ export default {
     closeTitle: function (item) {
       item.list_title.titleChangeh3 = !item.list_title.titleChangeh3;
       item.list_title.titleChangeInput = !item.list_title.titleChangeInput;
-    },
-
-    addCard: function (item) {
-      console.log(item.list_title.addCardDiv);
-      item.list_title.addCardDiv = !item.list_title.addCardDiv;
-      item.list_title.addCardBtn = !item.list_title.addCardBtn;
-    },
-
-    closeCard(item) {
-      item.list_title.addCardDiv = !item.list_title.addCardDiv;
-      item.list_title.addCardBtn = !item.list_title.addCardBtn;
     },
   },
   components: {
@@ -147,73 +111,5 @@ export default {
   margin: 0.2rem 1rem;
   height: 2em;
   margin-top: 1rem;
-}
-.list-card-labels {
-  overflow: auto;
-  position: relative;
-  padding: 0px 5px;
-}
-
-.list-update-col {
-  display: flex;
-}
-
-#list-card-composer-textarea {
-  overflow: hidden;
-  overflow-wrap: break-word;
-  resize: none;
-  height: 54px;
-  font-family: Verdana, Geneva, sans-serif;
-  font-size: 16px;
-  border-radius: 0.4rem;
-  border: none;
-}
-
-.add-card-update-btn {
-  margin: 5px;
-  padding: 8px;
-  background-color: #4b89dc;
-  border: none;
-  border-radius: 0.3rem;
-  color: white;
-  cursor: pointer;
-}
-
-.add-card-update-btn:hover {
-  background-color: #0067a3;
-  color: white;
-  text-decoration: none;
-}
-
-.add-list-close {
-  height: 100%;
-  margin: 10px;
-  cursor: pointer;
-}
-
-.fa-x {
-  font-size: 20px;
-  color: #4d4d4d;
-}
-
-.fa-x:hover {
-  color: #000000;
-  text-decoration: none;
-}
-
-.add-card-btn {
-  display: block;
-  font-size: 1.4rem;
-  font-weight: 400;
-  color: #838c91;
-  padding: 1rem;
-  text-align: left;
-  cursor: pointer;
-}
-
-.add-card-btn:hover {
-  background-color: #cdd2d4;
-  color: #4d4d4d;
-  text-decoration: none;
 }
 </style>

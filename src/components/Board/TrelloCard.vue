@@ -1,12 +1,20 @@
 <!--HTML-->
 <template>
-  <ul class="list-items" ref=" items">
-    <li v-for="(card, idx) in this.addTitle" v-bind:key="idx">
+  <ul
+    class="list-items"
+    ref=" items"
+    @drop.prevent="onDrop($event, idx)"
+    @dragenter.prevent
+    @dragover.prevent
+  >
+    <li
+      v-for="(card, idx) in this.addTitle"
+      v-bind:key="idx"
+      draggable="true"
+      @dragstart="startDrag($event, card)"
+    >
       {{ card.card_title }}
     </li>
-    <!-- <li v-for="newCard in newTitle" :key="newCard">
-      {{ newCard }}
-    </li> -->
   </ul>
   <div class="list-card-labels" v-show="this.addOption.addCardDiv">
     <textarea
@@ -74,6 +82,21 @@ export default {
       this.addOption.addCardDiv = !this.addOption.addCardDiv;
       this.addOption.addCardBtn = !this.addOption.addCardBtn;
     },
+
+    startDrag(event, item) {
+      event.dataTransfer.dropEffect = "move";
+      event.dataTransfer.effectAllowed = "move";
+      event.dataTransfer.setData("selectedItem", item.card_title);
+    },
+
+    // onDrop(event, idx) {
+    //   const selectedItem = Number(event.dataTransfer.getData("selectedItem"));
+
+    //   let targetIdx
+    //   let targetItem
+
+    //   this.
+    // },
   },
 };
 </script>

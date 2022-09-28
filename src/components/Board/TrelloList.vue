@@ -1,6 +1,11 @@
 <!--HTML-->
 <template>
-  <div class="list" v-for="item in this.updateTitle" v-bind:key="item">
+  <div
+    class="list"
+    v-for="(item, idx) in this.updateTitle"
+    v-bind:key="idx"
+    draggable="true"
+  >
     <div class="title-menu">
       <!-- {{ board }} -->
       <span>
